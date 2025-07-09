@@ -9,9 +9,9 @@
    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
     
     <!-- DYNAMIC OPEN GRAPH для превью в мессенджерах -->
-    <meta property="og:title" content="Поздравительная открытка от CardGift" id="ogTitle">
-    <meta property="og:description" content="Красивая персональная открытка" id="ogDescription">
-    <meta property="og:image" content="" id="ogImage">
+    <meta property="og:title" content="CardGift - Поздравительная открытка" id="ogTitle">
+    <meta property="og:description" content="Красивая персональная открытка от CardGift" id="ogDescription">
+    <meta property="og:image" content="https://cardgift.bnb/preview-default.jpg" id="ogImage">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:type" content="website">
@@ -20,9 +20,9 @@
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Поздравительная открытка" id="twitterTitle">
-    <meta name="twitter:description" content="Красивая персональная открытка" id="twitterDescription">
-    <meta name="twitter:image" content="" id="twitterImage">
+    <meta name="twitter:title" content="CardGift - Поздравительная открытка" id="twitterTitle">
+    <meta name="twitter:description" content="Красивая персональная открытка от CardGift" id="twitterDescription">
+    <meta name="twitter:image" content="https://cardgift.bnb/preview-default.jpg" id="twitterImage">
     
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 	
@@ -1214,12 +1214,47 @@ if ((data.videoUrl && data.videoUrl.trim()) || (data.mediaType === 'video' && da
            document.getElementById('bottomBanner').classList.remove('show');
        }
        
-       // Увеличиваем счетчик просмотров
-       incrementViews(data);
-       
-       console.log('✅ Карта отображена успешно');
-       
-   }, 1500);
+      // Увеличиваем счетчик просмотров
+incrementViews(data);
+
+// ✅ НОВОЕ: Обновляем META теги для превью
+updateMetaTags(data);
+
+console.log('✅ Карта отображена успешно');
+
+}, 1500);
+}
+
+// ===== ОБНОВЛЕНИЕ META ТЕГОВ ДЛЯ ПРЕВЬЮ =====
+function updateMetaTags(cardData) {
+    if (!cardData) return;
+    
+    const title = cardData.greeting ? 
+        cardData.greeting.split('\n')[0] || 'Поздравительная открытка' : 
+        'Поздравительная открытка';
+    
+    const description = cardData.greeting ? 
+        cardData.greeting.split('\n').slice(0, 2).join(' ') || 'Красивая персональная открытка от CardGift' : 
+        'Красивая персональная открытка от CardGift';
+    
+    const imageUrl = cardData.previewImageUrl || 'https://cardgift.bnb/preview-default.jpg';
+    const url = window.location.href;
+    
+    // Обновляем Open Graph
+    document.getElementById('ogTitle').content = `${title} - CardGift`;
+    document.getElementById('ogDescription').content = description;
+    document.getElementById('ogImage').content = imageUrl;
+    document.getElementById('ogUrl').content = url;
+    
+    // Обновляем Twitter Card
+    document.getElementById('twitterTitle').content = `${title} - CardGift`;
+    document.getElementById('twitterDescription').content = description;
+    document.getElementById('twitterImage').content = imageUrl;
+    
+    // Обновляем заголовок страницы
+    document.title = `${title} - CardGift`;
+    
+    console.log('🏷️ META теги обновлены:', { title, description, imageUrl });
 }
 
       // ===== СЧЕТЧИК ПРОСМОТРОВ =====
