@@ -2689,10 +2689,37 @@ try {
    
    const detectedLang = detectLanguage();
    switchLanguage(detectedLang);
-
+   
+   // ✅ НОВОЕ: Проверка авторизации ПЕРВЫМ ДЕЛОМ
    const urlParams = new URLSearchParams(window.location.search);
-   const isNewUser = urlParams.get('newUser');
    const userId = urlParams.get('userId');
+   const isNewUser = urlParams.get('newUser');
+   
+   if (!userId) {
+       console.log('❌ Пользователь не авторизован - нет userId в URL');
+       if (confirm('Требуется авторизация. Перейти на регистрацию?')) {
+           window.location.href = 'registration.html';
+           return;
+       }
+   } else {
+       console.log('✅ Найден userId в URL:', userId);
+       // Загружаем пользователя по ID
+       currentUser = {
+           userId: userId,
+           level: 0,
+           isActive: false,
+           cardCount: 0
+       };
+       
+       // Пытаемся загрузить из localStorage
+       const savedUser = localStorage.getItem('currentUser');
+       if (savedUser) {
+           const userData = JSON.parse(savedUser);
+           if (userData.userId === userId) {
+               currentUser = userData;
+           }
+       }
+   }
    
    if (isNewUser && userId) {
        showWelcomeBanner(userId);
@@ -3864,7 +3891,7 @@ button.textContent = ctaButton;
 if (ctaUrl && ctaUrl.trim()) {
    button.onclick = () => window.open(ctaUrl, '_blank');
 } else {
-   button.onclick = () => window.open('registration.html', '_blank');
+   button.onclick = () => window.open(`registration.html?ref=${currentUser.userId}&lang=${currentLanguage}`, '_blank');
 }
 
 ctaEl.appendChild(titleDiv);
@@ -3959,21 +3986,31 @@ window.location.href = `/referral-system.html?lang=${currentLanguage}`;
 
 // Переход к статистике рефералов
 function goToReferrals() {
-window.location.href = `/referral-system.html?lang=${currentLanguage}`;
+    window.location.href = `dashboard.html?userId=${currentUser.userId}&lang=${currentLanguage}`;
 }
 
 // ==================== УТИЛИТЫ ====================
 
 // Генерация ID пользователя
 function generateUserId() {
-try {
-   const array = new Uint32Array(2);
-   window.crypto.getRandomValues(array);
-   const randomNum = (array[0] % 9000000) + 1000000;
-   return randomNum.toString();
-} catch (error) {
-   return Math.floor(1000000 + Math.random() * 9000000).toString();
-}
+    try {
+        // Проверяем, есть ли уже ID пользователя
+        const existingUser = localStorage.getItem('currentUser');
+        if (existingUser) {
+            const userData = JSON.parse(existingUser);
+            if (userData.userId) {
+                return userData.userId;
+            }
+        }
+        
+        // Генерируем новый ID
+        const array = new Uint32Array(2);
+        window.crypto.getRandomValues(array);
+        const randomNum = (array[0] % 9000000) + 1000000;
+        return randomNum.toString();
+    } catch (error) {
+        return Math.floor(1000000 + Math.random() * 9000000).toString();
+    }
 }
 
 // Конвертация файла в base64
