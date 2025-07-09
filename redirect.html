@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CardGift Redirect</title>
+    <script>
+        // Детектим браузер и перенаправляем
+        const path = window.location.pathname;
+        const cardId = path.split('/c/')[1] || new URLSearchParams(window.location.search).get('id');
+        
+        if (cardId) {
+            // Если Web3 браузер - на .bnb домен
+            if (window.ethereum || navigator.userAgent.includes('Brave')) {
+                window.location.href = `https://cardgift.bnb/card-viewer.html?id=${cardId}`;
+            } else {
+                // Если обычный браузер - на 4EVERLAND
+                window.location.href = `https://cardgift-main-cardgift-web3-k32una0f-cardgiftg.4everland.app/card-viewer.html?id=${cardId}`;
+            }
+        }
+    </script>
+</head>
+<body>Redirecting...</body>
+</html>
