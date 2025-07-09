@@ -1078,7 +1078,7 @@
                 lang: currentLanguage
             });
             
-            window.location.href = `/dashboard.html?${params.toString()}`;
+            window.location.href = `dashboard.html?${params.toString()}`;
         }
 
         // НОВАЯ ФУНКЦИЯ: ПРОПУСК WEB3 ПРЕДЛОЖЕНИЯ
@@ -1100,7 +1100,7 @@
                 if (timeLeft <= 0) {
                     clearInterval(window.countdownInterval);
                     // Переход на обычный генератор (без WEB3)
-                    window.location.href = `/generator.html?userId=${userId}&lang=${currentLanguage}`;
+                    window.location.href = `generator.html?userId=${userId}&lang=${currentLanguage}`;
                 }
             }, 1000);
         }
