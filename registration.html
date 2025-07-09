@@ -1161,19 +1161,79 @@
             }
         }
 
-        // ФУНКЦИЯ СОХРАНЕНИЯ ПОЛЬЗОВАТЕЛЯ (ЗАГЛУШКА - заменить на реальную)
-        async function saveUser(userData) {
-            return new Promise((resolve) => {
-                // Имитация API вызова
-                setTimeout(() => {
-                    const userId = 'CG' + Date.now().toString().slice(-6);
-                    resolve({
-                        success: true,
-                        userId: userId
-                    });
-                }, 1000);
+        // ЗАМЕНИТЬ ЭТУ ЗАГЛУШКУ:
+async function saveUser(userData) {
+    return new Promise((resolve) => {
+        // Имитация API вызова
+        setTimeout(() => {
+            const userId = 'CG' + Date.now().toString().slice(-6);
+            resolve({
+                success: true,
+                userId: userId
             });
+        }, 1000);
+    });
+}
+
+// НА РЕАЛЬНУЮ ФУНКЦИЮ:
+async function saveUser(userData) {
+    try {
+        // Генерируем уникальный ID
+        const userId = generateUserId();
+        
+        // Сохраняем в localStorage
+        const userProfile = {
+            userId: userId,
+            name: userData.name,
+            messenger: userData.messenger,
+            contact: userData.contact,
+            language: userData.language,
+            referredBy: userData.referredBy,
+            walletAddress: userData.walletAddress,
+            registrationDate: userData.registrationDate,
+            level: 0,
+            isActive: false,
+            cardCount: 0
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(userProfile));
+        localStorage.setItem(`user_${userId}`, JSON.stringify(userProfile));
+        
+        // Сохраняем реферальную связь
+        if (userData.referredBy) {
+            const referrals = JSON.parse(localStorage.getItem('referrals') || '{}');
+            if (!referrals[userData.referredBy]) {
+                referrals[userData.referredBy] = [];
+            }
+            referrals[userData.referredBy].push(userId);
+            localStorage.setItem('referrals', JSON.stringify(referrals));
         }
+        
+        return {
+            success: true,
+            userId: userId
+        };
+        
+    } catch (error) {
+        console.error('Save user error:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}
+
+// ДОБАВИТЬ ФУНКЦИЮ ГЕНЕРАЦИИ ID:
+function generateUserId() {
+    try {
+        const array = new Uint32Array(2);
+        window.crypto.getRandomValues(array);
+        const randomNum = (array[0] % 9000000) + 1000000;
+        return randomNum.toString();
+    } catch (error) {
+        return Math.floor(1000000 + Math.random() * 9000000).toString();
+    }
+}
     </script>
 </body>
 </html>
