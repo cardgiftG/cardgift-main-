@@ -1984,7 +1984,7 @@
         <div class="referral-section">
             <h3 style="color: #FFD700; margin-bottom: 15px;">🔗 Your Referral Link</h3>
             <div class="referral-link-container">
-                <input type="text" class="referral-link-input" id="referralLink" value="https://cardgift.bnb/registration.html?ref=YOUR_ID" readonly>
+                <input type="text" class="referral-link-input" id="referralLink" value="https://www.cardgift.org/registration.html?ref=YOUR_ID" readonly>
                 <button class="copy-btn" onclick="copyReferralLink()">📋 Copy</button>
                 <button class="share-btn" onclick="shareReferralLink()">📤 Share</button>
             </div>
@@ -2508,7 +2508,7 @@
     };
 
     // ✅ ИСПРАВЛЕНО: Домен cardgift.bnb везде
-    const DOMAIN = 'https://cardgift.bnb';
+    const DOMAIN = 'https://${getDomain()}';
 
     const SUPPORTED_WALLETS = {
         safepal: {
@@ -5510,6 +5510,18 @@ window.addEventListener('message', function(event) {
     }
 });
 
+<script>
+// Конфигурация доменов
+const DOMAINS = {
+    main: 'www.cardgift.org',
+    web3: 'cardgift.bnb',
+    ipfs: 'https://ipfs.io/ipfs/bafybeiem6olhafmq6kiiszjq6dezy5umdwozglxk3qvqeriyzhip2vpmua'
+};
+
+// Функция выбора домена
+function getDomain() {
+    return DOMAINS.main; // пока основной
+}
 </script>
 </body>
 </html>
