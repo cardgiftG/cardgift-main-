@@ -1234,6 +1234,19 @@ function generateUserId() {
         return Math.floor(1000000 + Math.random() * 9000000).toString();
     }
 }
-    </script>
+    
+	<script>
+// Конфигурация доменов
+const DOMAINS = {
+    main: 'www.cardgift.org',
+    web3: 'cardgift.bnb',
+    ipfs: 'https://ipfs.io/ipfs/bafybeiem6olhafmq6kiiszjq6dezy5umdwozglxk3qvqeriyzhip2vpmua'
+};
+
+// Функция выбора домена
+function getDomain() {
+    return DOMAINS.main; // пока основной
+}
+</script>
 </body>
 </html>
