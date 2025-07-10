@@ -11,12 +11,24 @@
         if (cardId) {
             // Если Web3 браузер - на .bnb домен
             if (window.ethereum || navigator.userAgent.includes('Brave')) {
-                window.location.href = `https://cardgift.bnb/card-viewer.html?id=${cardId}`;
+                window.location.href = `https://${getDomain()}/card-viewer.html?id=${cardId}`;
             } else {
                 // Если обычный браузер - на 4EVERLAND
                 window.location.href = `https://cardgift-main-cardgift-web3-k32una0f-cardgiftg.4everland.app/card-viewer.html?id=${cardId}`;
             }
         }
+		<script>
+// Конфигурация доменов
+const DOMAINS = {
+    main: 'www.cardgift.org',
+    web3: 'cardgift.bnb',
+    ipfs: 'https://ipfs.io/ipfs/bafybeiem6olhafmq6kiiszjq6dezy5umdwozglxk3qvqeriyzhip2vpmua'
+};
+
+// Функция выбора домена
+function getDomain() {
+    return DOMAINS.main; // пока основной
+}
     </script>
 </head>
 <body>Redirecting...</body>
