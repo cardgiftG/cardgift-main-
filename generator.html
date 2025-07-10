@@ -2215,7 +2215,7 @@ async saveCardWithPreview(cardData) {
         console.log('💾 Сохраняем карту с превью...');
         
         const previewImage = await this.generatePreviewImage(cardData);
-        const cardUrl = `https://cardgift.bnb/card-viewer.html?id=${cardData.cardId}`;
+        const cardUrl = `https://${getDomain()}/card-viewer.html?id=${cardData.cardId}`;
         
         // ТОЛЬКО локальное сохранение
         await saveCard(cardData);
@@ -2237,7 +2237,7 @@ async saveCardWithPreview(cardData) {
 generateMetaTags(cardData, previewImageUrl) {
     const title = this.extractTitle(cardData.greeting) || 'Поздравительная открытка - CardGift';
     const description = this.extractDescription(cardData.greeting) || 'Красивая персональная открытка создана с помощью CardGift';
-    const url = `https://cardgift.bnb/card-viewer.html?id=${cardData.cardId}`;
+    const url = `https://${getDomain()}/card-viewer.html?id=${cardData.cardId}`;
     
     return {
         'og:title': this.escapeHTML(title),
@@ -3074,7 +3074,7 @@ async function sendToPreviewAPI(cardMetadata) {
         };
         
         // ЗДЕСЬ УКАЖИ РЕАЛЬНЫЙ URL ТВОЕГО API
-        const apiUrl = 'https://cardgift.bnb/api/generate-preview';
+        const apiUrl = 'https://www.cardgift.org/api/generate-preview';
         // Для локального тестирования: 'http://localhost:3000/api/generate-preview'
         
         const response = await fetch(apiUrl, {
@@ -4236,6 +4236,19 @@ checkCreateButtonState();
 });
 
 console.log('✅ CardGift Generator полностью загружен с WEB3 интеграцией, улучшенной поддержкой видео и превью для соцсетей');
+
+<script>
+// Конфигурация доменов
+const DOMAINS = {
+    main: 'www.cardgift.org',
+    web3: 'cardgift.bnb',
+    ipfs: 'https://ipfs.io/ipfs/bafybeiem6olhafmq6kiiszjq6dezy5umdwozglxk3qvqeriyzhip2vpmua'
+};
+
+// Функция выбора домена
+function getDomain() {
+    return DOMAINS.main; // пока основной
+}
 </script>
 </body>
 </html>
