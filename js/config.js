@@ -950,6 +950,19 @@ const CONTRACT_CONFIG = {
 	}
 ]
 };
+// Конфигурация доменов
+const DOMAINS = {
+    main: 'www.cardgift.org',
+    web3: 'cardgift.bnb',
+    ipfs: 'https://ipfs.io/ipfs/bafybeiem6olhafmq6kiiszjq6dezy5umdwozglxk3qvqeriyzhip2vpmua'
+};
 
-// Глобальная доступность
+// Функция выбора домена
+function getDomain() {
+    return DOMAINS.main;
+}
+
+// Глобальная доступность (объединенная секция)
 window.CONTRACT_CONFIG = CONTRACT_CONFIG;
+window.getDomain = getDomain;
+window.DOMAINS = DOMAINS;
